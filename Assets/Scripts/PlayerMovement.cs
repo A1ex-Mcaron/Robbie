@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
 
     public LayerMask groundLayer;
 
-    float xVelocity;
+    public float xVelocity;
 
     //按键设置
     bool jumpPressed;
