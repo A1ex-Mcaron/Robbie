@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<BoxCollider2D>();
 
-
+        //获取角色碰撞体大小
         playerHeight = coll.size.y;
         colliderStandSize = coll.size;
         colliderStandOffset = coll.offset;
@@ -68,6 +68,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
+        //跳跃检测
         if (Input.GetButtonDown("Jump"))
         {
             jumpPressed = true;
@@ -119,6 +121,8 @@ public class PlayerMovement : MonoBehaviour
         float direction = transform.localScale.x;
         Vector2 grabDir = new Vector2(direction, 0f);
 
+
+        //眼部, 头顶平行等墙体检测
         RaycastHit2D blockedCheck = Raycast(new Vector2(footOffset * direction, playerHeight), grabDir, grabDistance, groundLayer);
         RaycastHit2D wallCheck = Raycast(new Vector2(footOffset * direction, eyeHeight), grabDir, grabDistance, groundLayer);
         RaycastHit2D ledgeCheck = Raycast(new Vector2(reachOffset * direction, playerHeight), Vector2.down, grabDistance, groundLayer);
@@ -142,6 +146,7 @@ public class PlayerMovement : MonoBehaviour
 
     void GroundMovement()
     {
+        //悬挂时, 持续返回, 禁止左右操作
         if (isHanging)
             return;
 
@@ -174,6 +179,7 @@ public class PlayerMovement : MonoBehaviour
                 isHanging = false;
                 jumpPressed = false;
                 isJump = true;
+                AudioManager.PlayJumpAudio();
             }
 
             if (crouchPressed)
@@ -192,6 +198,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 //StandUp();
                 rb.AddForce(new Vector2(0f, crouchJumpBoost), ForceMode2D.Impulse);
+                AudioManager.PlayJumpAudio();
             }
 
             isOnGround = false;
@@ -203,6 +210,8 @@ public class PlayerMovement : MonoBehaviour
             //确保跳跃键状态被重置
             jumpPressed = false;
             crouchPressed = false;
+
+            AudioManager.PlayJumpAudio();
         }
 
         else if (isJump)
@@ -221,12 +230,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //使用Vector 3三维向量, Vector 2二维向量会在转向时将Z轴重置为0, 导致贴图错误
     void FilpDirction()
     {
         if (xVelocity < 0)
-            transform.localScale = new Vector2(-1, 1);
+            transform.localScale = new Vector3(-1, 1, 1);//z = 0
         if (xVelocity > 0)
-            transform.localScale = new Vector2(1, 1);
+            transform.localScale = new Vector3(1, 1, 1);
     }
 
     void Crouch()
