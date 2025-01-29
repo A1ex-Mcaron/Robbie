@@ -17,11 +17,18 @@ public class AudioManager : MonoBehaviour
     public AudioClip musicClip;
 
     [Header("Robbie“Ù–ß")]
+    public AudioClip deathFXClip;
+
+
+    [Header("Robbie“Ù–ß")]
     public AudioClip[] walkStepClips;
     public AudioClip[] CrouchStepClips;
     public AudioClip jumpClip;
+    public AudioClip deathClip;
 
     public AudioClip jumpVoiceClip;
+    public AudioClip deathVoiceClip;
+
 
     AudioSource ambientSource;
     AudioSource musicSource;
@@ -31,7 +38,7 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        current = this;
+        current = this; 
 
         DontDestroyOnLoad(gameObject);
 
@@ -80,6 +87,18 @@ public class AudioManager : MonoBehaviour
 
         current.voiceSource.clip = current.jumpVoiceClip;
         current.voiceSource.Play();
+    }
+
+    public static void PlayDeathAudio()
+    {
+        current.playerSource.clip = current.deathFXClip;
+        current.playerSource.Play();
+
+        current.voiceSource.clip = current.deathVoiceClip;
+        current.voiceSource.Play();
+
+        current.fxSource.clip = current.deathFXClip;
+        current.fxSource.Play();
     }
 
 }
