@@ -16,8 +16,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip ambientClip;
     public AudioClip musicClip;
 
-    [Header("Robbie“Ù–ß")]
+    [Header("FX“Ù–ß")]
     public AudioClip deathFXClip;
+    public AudioClip orbFXClip;
 
 
     [Header("Robbie“Ù–ß")]
@@ -28,6 +29,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip jumpVoiceClip;
     public AudioClip deathVoiceClip;
+    public AudioClip orbVoiceClip;
 
 
     AudioSource ambientSource;
@@ -99,6 +101,15 @@ public class AudioManager : MonoBehaviour
 
         current.fxSource.clip = current.deathFXClip;
         current.fxSource.Play();
+    }
+
+    public static void PlayOrbAudio()
+    {
+        current.fxSource.clip = current.orbFXClip;
+        current.fxSource.Play();
+
+        current.voiceSource.clip = current.orbVoiceClip;
+        current.voiceSource.Play();
     }
 
 }
